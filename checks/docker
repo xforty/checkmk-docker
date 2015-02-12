@@ -1,0 +1,23 @@
+def inventory_docker_container(info):
+   inventory = []
+
+   # ['NAME', 'CONTAINER_ID', 'IMAGE', 'CREATED', 'RUNNING', 'STARTED']
+   for line in info:
+      if line[0] != 'NAME':
+         inventory.append( (line[0], None) )
+
+   return inventory
+
+def check_docker_container(item, params, info):
+   for line in info:
+      if line[0] == item:
+         if line[4] == 'true':
+            return (0, "Up")
+         else:
+            return (2, "Down")
+
+check_info["docker.running"] = {
+    'check_function':            check_docker_container,
+    'inventory_function':        inventory_docker_container,
+    'service_description':       'docker container %s',
+}
