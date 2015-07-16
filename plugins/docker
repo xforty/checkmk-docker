@@ -2,12 +2,12 @@
 
 #CONTAINER ID        IMAGE                     COMMAND             CREATED             STATUS              PORTS               NAMES
 
+filter="label=monitoring=production"
 format='{{ printf "%s %0.13s %s %s %t %s" .Name .Id .Config.Image .Created .State.Running .State.StartedAt}}'
 echo "<<<docker>>>"
 
 echo "NAME CONTAINER_ID IMAGE CREATED RUNNING STARTED"
 
-docker ps -a | awk '{print $1}' | sed -n '2,$p' | xargs docker inspect --format "$format" | sed 's/^\///g'
+docker ps -a --filter="$filter"| awk '{print $1}' | sed -n '2,$p' | xargs docker inspect --format "$format" | sed 's/^\///g'
 
 echo
-
