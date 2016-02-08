@@ -10,7 +10,8 @@ docker run \
   --detach \
   --name=checkmk \
   --hostname=checkmk \
-  -volume /var/run/docker.sock:/var/run/docker.sock \
+  --volume=/var/run/docker.sock:/var/run/docker.sock \
+  --label=monitoring=production \
   --publish 6556:6556 \
   xforty/checkmk
   
